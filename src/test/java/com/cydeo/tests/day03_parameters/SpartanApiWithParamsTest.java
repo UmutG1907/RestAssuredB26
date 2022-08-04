@@ -9,6 +9,8 @@ import static io.restassured.RestAssured.*;
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 
+import javax.annotation.meta.When;
+
 public class SpartanApiWithParamsTest {
 
     String url = "http://3.93.242.50:8000/api/spartans";
@@ -44,6 +46,35 @@ public class SpartanApiWithParamsTest {
 
         assertEquals("application/json", response.getContentType());
         assertTrue(response.asString().contains("Blythe"));
+
+    }
+
+
+    /**Given accept type is Json
+    And Id parameter value is 500
+    When user sends GET request to /api/spartans/{id}
+    Then response status code should be 404
+    And response content-type: application/json
+    And "Not Found" message should be in response payload
+     */
+    @DisplayName("GET /api/spartans/{id} with missing id")
+    @Test
+    public void getSingleSpartanNotFound(){
+        Response response = given().accept(ContentType.JSON)
+                .and().pathParam("id", 500)
+                .when().get(url + "/{id}");     //api/spartans/500
+
+        System.out.println("status code = " + response.statusCode());
+        assertEquals(404, response.statusCode());
+        assertEquals(HttpStatus.SC_NOT_FOUND, response.statusCode());
+
+        assertEquals("application/json", response.contentType());
+        assertEquals(ContentType.JSON.toString(), response.contentType());
+
+        response.prettyPrint();
+
+        assertTrue(response.asString().contains("Not Found"));
+
 
     }
 
