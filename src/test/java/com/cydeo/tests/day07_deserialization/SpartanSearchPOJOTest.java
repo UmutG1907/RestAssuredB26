@@ -8,8 +8,6 @@ import org.apache.http.HttpStatus;
 import com.cydeo.utilities.SpartanTestBase;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
-
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -68,9 +66,6 @@ public class SpartanSearchPOJOTest extends SpartanTestBase {
         List<String> allNames = spartanData.stream().map(sp -> sp.getName()).collect(Collectors.toList());
 
         System.out.println("allNames = " + allNames);
-
-
-
     }
 
 
