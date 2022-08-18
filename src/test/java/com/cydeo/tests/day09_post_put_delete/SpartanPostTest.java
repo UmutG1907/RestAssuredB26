@@ -3,8 +3,6 @@ import com.cydeo.utilities.SpartanRestUtils;
 import io.restassured.http.ContentType;
 import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
-import org.apache.http.HttpStatus;
-import org.apache.http.protocol.HTTP;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import static io.restassured.RestAssured.*;

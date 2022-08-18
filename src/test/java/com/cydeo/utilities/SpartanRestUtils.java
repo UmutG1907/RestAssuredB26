@@ -1,4 +1,9 @@
 package com.cydeo.utilities;
+import io.restassured.http.ContentType;
+import io.restassured.response.Response;
+
+import java.util.Map;
+
 import static io.restassured.RestAssured.*;
 
 public class SpartanRestUtils {
@@ -13,4 +18,13 @@ public class SpartanRestUtils {
                 .then().log().all();
     }
 
+    public static Map<String, Object> getSpartan(int spartanId) {
+        Response response = given().accept(ContentType.JSON)
+                .and().pathParam("id", spartanId)
+                .when().get(baseUrl + "/spartans/{id}");
+
+        //return response.as(Map.class);
+        Map<String, Object> spartanMap = response.as(Map.class);
+        return spartanMap;
+    }
 }
