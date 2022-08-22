@@ -54,7 +54,5 @@ public class SpartanPatchRequestTest extends SpartanTestBase {
         System.out.println("spartanMap = " + spartanMap);
         //compare spartanMap from GET matches phone number in PATCH request.
         assertThat(spartanMap.get("phone"), equalTo(requestMap.get("phone")));
-
-
     }
 }
