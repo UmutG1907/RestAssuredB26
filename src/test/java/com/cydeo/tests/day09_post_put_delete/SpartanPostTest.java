@@ -1,4 +1,5 @@
 package com.cydeo.tests.day09_post_put_delete;
+import com.cydeo.pojo.Spartan;
 import com.cydeo.utilities.SpartanRestUtils;
 import io.restassured.http.ContentType;
 import io.restassured.path.json.JsonPath;
@@ -104,6 +105,45 @@ public class SpartanPostTest extends SpartanTestBase {
 
         //delete the spartan after post
         SpartanRestUtils.deleteSpartanById(spartanId);
+    }
+
+    @DisplayName("POST /spartans using POJO - SERIALIZATION")
+    @Test
+    public void addNewSpartanAsPOJOTest(){
+        Spartan newSpartan = new Spartan();
+        newSpartan.setGender("Male");
+        newSpartan.setName("TestPost1");
+        newSpartan.setPhone(1234567425L);
+
+        Response response = given().accept(ContentType.JSON)
+                .and().contentType(ContentType.JSON)
+                .and().body(newSpartan)
+                .when().post("/spartans");          //Serialization by POJO
+
+        response.prettyPrint();
+
+        System.out.println("status code is = " + response.statusCode());
+        assertThat(response.statusCode(), is(response.getStatusCode()));
+
+        //verify header
+        assertThat(response.contentType(), is(response.getContentType()));
+
+
+        //assign response to jsonPath
+        JsonPath jsonPath = response.jsonPath();
+        assertThat(jsonPath.getString("success"), equalTo("A Spartan is Born!"));
+        assertThat(jsonPath.getString("data.name"), equalTo(newSpartan.getName()));
+        assertThat(jsonPath.getString("data.gender"), equalTo(newSpartan.getGender()));
+        assertThat(jsonPath.getLong("data.phone"), equalTo(newSpartan.getPhone()));
+
+        //extract the id of newly added spartan
+        int spartanId = jsonPath.getInt("data.id");
+        System.out.println("Spartan id --> " + spartanId);
+
+        //delete the spartan after post
+        SpartanRestUtils.deleteSpartanById(spartanId);
+
+
     }
 
 }
