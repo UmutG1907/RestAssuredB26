@@ -8,5 +8,4 @@ public class Spartan {
     private String name;
     private String gender;
     private long phone;
-
 }
